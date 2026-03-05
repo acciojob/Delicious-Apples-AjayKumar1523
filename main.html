@@ -157,8 +157,10 @@
     .variant-colors {
       display: flex;
       gap: 0.5rem;
+      list-style: none;
+      padding: 0;
     }
-    .variant-colors a {
+    .variant-colors li a {
       display: block;
       width: 38px; height: 38px;
       border-radius: 50%;
@@ -166,9 +168,10 @@
       border: 2px solid transparent;
       transition: border-color 0.2s, transform 0.2s;
     }
-    .variant-colors a:hover { transform: scale(1.12); }
-    .variant-colors a.active { border-color: #555; }
-    .variant-colors a img {
+    .variant-colors li a:hover { transform: scale(1.12); }
+    .variant-colors li a.active { border-color: #555; }
+    .variant-colors li a img,
+    .variant-colors > li > img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -273,25 +276,17 @@
       </div>
 
       <div class="variant">
-        <div class="variant-label">Select a Color</div>
-        <div class="variant-colors">
-          <a href="#" class="active">
-            <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=100&q=80" alt="Green apple"/>
-          </a>
-          <a href="#">
-            <img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=100&q=80" alt="Yellow apple"/>
-          </a>
-          <a href="#">
-            <img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=100&q=80" alt="Orange apple"/>
-          </a>
-          <a href="#">
-            <img src="https://images.unsplash.com/photo-1576179635662-9d1983e97e1e?w=100&q=80" alt="Red apple"/>
-          </a>
-        </div>
+        <div class="variant-label">SELECT A COLOR</div>
+        <ul class="variant-colors">
+          <li><a href="#" class="active"><img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=100&q=80" alt="Green apple"/></a></li>
+          <li><a href="#"><img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=100&q=80" alt="Yellow apple"/></a></li>
+          <li><a href="#"><img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=100&q=80" alt="Orange apple"/></a></li>
+          <li><a href="#"><img src="https://images.unsplash.com/photo-1576179635662-9d1983e97e1e?w=100&q=80" alt="Red apple"/></a></li>
+        </ul>
       </div>
 
       <div class="description">
-        <div class="description-label">Benefits</div>
+        <div class="description-label">BENEFITS</div>
         <ul>
           <li>Apples are nutricious</li>
           <li>Apples may be good for weight loss</li>
@@ -300,7 +295,7 @@
         </ul>
       </div>
 
-      <button class="add-to-cart">Add to Cart</button>
+      <button class="add-to-cart">ADD TO CART</button>
     </div>
 
   </div>

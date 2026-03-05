@@ -1,68 +1,309 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title></title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/styles.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delicious Apples</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #2ecc71;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* ===== CARD ===== */
+    .product {
+      display: flex;
+      background: #fff;
+      border-radius: 16px;
+      overflow: visible;
+      max-width: 860px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    /* ===== LEFT — PHOTO ===== */
+    .product__photo {
+      width: 340px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .photo-container {
+      background: #7dde3c;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      height: 440px;
+      margin: -10px 0 0 -10px;
+      z-index: 1;
+      box-shadow: 4px 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .photo-container .photo-icons {
+      position: absolute;
+      top: 1rem; left: 1rem; right: 1rem;
+      display: flex;
+      justify-content: space-between;
+      z-index: 2;
+    }
+    .photo-icons span {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.9);
+      cursor: pointer;
+    }
+
+    .photo-main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-main > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-album {
+      padding: 0.75rem 0.5rem;
+      background: #fff;
+    }
+    .photo-album > ul {
+      list-style: none;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .photo-album > ul > li {
+      width: 70px; height: 70px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .photo-album > ul > li:hover { border-color: #2ecc71; }
+    .photo-album > ul > li > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== RIGHT — DETAILS ===== */
+    .product__info {
+      flex: 1;
+      padding: 2rem 2rem 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .product__info h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #222;
+    }
+    .product__info .code {
+      font-size: 0.75rem;
+      color: #aaa;
+      letter-spacing: 0.05em;
+      margin-top: 0.2rem;
+    }
+
+    /* Price */
+    .price {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+    }
+    .price .currency {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f44;
+    }
+    .price .amount {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #f44;
+      line-height: 1;
+    }
+
+    /* Variant */
+    .variant {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .variant-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #666;
+      text-transform: uppercase;
+    }
+    .variant-colors {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .variant-colors a {
+      display: block;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .variant-colors a:hover { transform: scale(1.12); }
+    .variant-colors a.active { border-color: #555; }
+    .variant-colors a img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    /* Description / Benefits */
+    .description {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .description-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #666;
+      text-transform: uppercase;
+    }
+    .description ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .description ul li {
+      font-size: 0.88rem;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    /* Add to Cart */
+    .add-to-cart {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #fff;
+      background: #f44336;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      margin-top: auto;
+    }
+    .add-to-cart:hover {
+      background: #d32f2f;
+      transform: scale(1.04);
+      box-shadow: 0 6px 20px rgba(244,67,54,0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .product { flex-direction: column; }
+      .product__photo { width: 100%; }
+      .photo-container { margin: 0; height: 280px; border-radius: 12px 12px 0 0; }
+      .product__info { padding: 1.5rem; }
+    }
+  </style>
 </head>
-
 <body>
-	<section class="product">
-		<div class="product__photo">
-			<div class="photo-container">
-				<div class="photo-main">
-					<div class="controls">
-						<i class="fa fa-share-alt"></i>
-						<i class="fa fa-heart-o"></i>
-					</div>
-					<img src="https://res.cloudinary.com/john-mantas/image/upload/v1537291846/codepen/delicious-apples/green-apple-with-slice.png"
-						alt="green apple slice">
-				</div>
-				<div class="photo-album">
-					<ul>
-						<li><img src="https://res.cloudinary.com/john-mantas/image/upload/v1537302064/codepen/delicious-apples/green-apple2.png"
-								alt="green apple"></li>
-						<li><img src="https://res.cloudinary.com/john-mantas/image/upload/v1537303532/codepen/delicious-apples/half-apple.png"
-								alt="half apple"></li>
-						<li><img src="https://res.cloudinary.com/john-mantas/image/upload/v1537303160/codepen/delicious-apples/green-apple-flipped.png"
-								alt="green apple"></li>
-						<li><img src="https://res.cloudinary.com/john-mantas/image/upload/v1537303708/codepen/delicious-apples/apple-top.png"
-								alt="apple top"></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="product__info">
-			<div class="title">
-				<h1>Delicious Apples</h1>
-				<span>CODE: 45999</span>
-			</div>
-			<div class="price">
-				R$ <span>7.93</span>
-			</div>
-			<div class="variant">
-				<h3>SELECT A COLOR</h3>
-				<ul>
-					<li><img src="https://res.cloudinary.com/john-mantas/image/upload/v1537302064/codepen/delicious-apples/green-apple2.png"
-							alt="green apple"></li>
-					<li><img src="https://res.cloudinary.com/john-mantas/image/upload/v1537302752/codepen/delicious-apples/yellow-apple.png"
-							alt="yellow apple"></li>
-					<li><img src="https://res.cloudinary.com/john-mantas/image/upload/v1537302427/codepen/delicious-apples/orange-apple.png"
-							alt="orange apple"></li>
-					<li><img src="https://res.cloudinary.com/john-mantas/image/upload/v1537302285/codepen/delicious-apples/red-apple.png"
-							alt="red apple"></li>
-				</ul>
-			</div>
-			<div class="description">
-				
-			</div>
-		</div>
-	</section>
-</body>
 
+  <div class="product">
+
+    <!-- LEFT: Photo -->
+    <div class="product__photo">
+      <div class="photo-container">
+        <div class="photo-icons">
+          <span>&#10094;</span>
+          <span>&#9825;</span>
+        </div>
+        <div class="photo-main">
+          <img
+            src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=600&q=80"
+            alt="Green apple main view"/>
+        </div>
+      </div>
+      <div class="photo-album">
+        <ul>
+          <li><img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=200&q=80" alt="Green apple view 1"/></li>
+          <li><img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=200&q=80" alt="Apple slice view"/></li>
+          <li><img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=200&q=80" alt="Apple cluster view"/></li>
+          <li><img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=200&q=80" alt="Apple close-up view"/></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT: Info -->
+    <div class="product__info">
+      <div>
+        <h1>Delicious Apples</h1>
+        <p class="code">CODE: 45999</p>
+      </div>
+
+      <div class="price">
+        <span class="currency">R$</span>
+        <span class="amount">7.93</span>
+      </div>
+
+      <div class="variant">
+        <div class="variant-label">Select a Color</div>
+        <div class="variant-colors">
+          <a href="#" class="active">
+            <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=100&q=80" alt="Green apple"/>
+          </a>
+          <a href="#">
+            <img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=100&q=80" alt="Yellow apple"/>
+          </a>
+          <a href="#">
+            <img src="https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=100&q=80" alt="Orange apple"/>
+          </a>
+          <a href="#">
+            <img src="https://images.unsplash.com/photo-1576179635662-9d1983e97e1e?w=100&q=80" alt="Red apple"/>
+          </a>
+        </div>
+      </div>
+
+      <div class="description">
+        <div class="description-label">Benefits</div>
+        <ul>
+          <li>Apples are nutricious</li>
+          <li>Apples may be good for weight loss</li>
+          <li>Apples may be good for bone health</li>
+          <li>They're linked to a lowest risk of diabetes</li>
+        </ul>
+      </div>
+
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+
+  </div>
+
+</body>
 </html>
